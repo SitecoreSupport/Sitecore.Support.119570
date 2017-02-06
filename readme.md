@@ -1,5 +1,5 @@
 # Sitecore.Support.119570
-An interaction contains relative URL instead of absolute for the visited pages
+The Interaction collection contains relative URLs for the visited pages instead of absolute. Because of this, it is impossible to understand which site was visited from Experience Profile.
 
 ## License  
 This patch is licensed under the [Sitecore Corporation A/S License for GitHub](https://github.com/sitecoresupport/Sitecore.Support.119570/blob/master/LICENSE).  
