@@ -12,21 +12,39 @@ namespace Sitecore.Support.Analytics.Pipelines.InitializeTracker
   {
     private void CreateAndInitializePage(HttpContextBase httpContext, CurrentInteraction visit)
     {
+      Assert.ArgumentNotNull(httpContext, nameof(httpContext));
+      Assert.ArgumentNotNull(visit, nameof(visit));
+      
       IPageContext context = visit.CreatePage();
-      string rawUrl = WebUtil.CurrentPage.Request.Url.AbsoluteUri;
+      Assert.IsNotNull(context, nameof(context));
+      
+      var currentPage = WebUtil.CurrentPage;
+      Assert.IsNotNull(currentPage, nameof(currentPage));
+      
+      var request = currentPage.Request;
+      Assert.IsNotNull(request, nameof(request));
+      
+      var rawUrl = request.Url.AbsoluteUri;
+      Assert.IsNotNull(rawUrl, nameof(rawUrl));
+      
       context.SetUrl(rawUrl);
-      DeviceItem device = Context.Device;
+      
+      var contextDevice = context.SitecoreDevice;
+      Assert.IsNotNull(contextDevice, nameof(contextDevice));
+      
+      var device = Context.Device;
       if (device != null)
       {
-        context.SitecoreDevice.Id = device.ID.Guid;
-        context.SitecoreDevice.Name = device.Name;
+        contextDevice.Id = device.ID.Guid;
+        contextDevice.Name = device.Name;
       }
       else
       {
-        context.SitecoreDevice.Id = Guid.Empty;
-        context.SitecoreDevice.Name = string.Empty;
+        contextDevice.Id = Guid.Empty;
+        contextDevice.Name = string.Empty;
       }
-      Item item = Context.Item;
+      
+      var item = Context.Item;
       if (item != null)
       {
         context.SetItemProperties(item.ID.Guid, item.Language.Name, item.Version.Number);
