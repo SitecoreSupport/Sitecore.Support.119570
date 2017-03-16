@@ -18,10 +18,7 @@ namespace Sitecore.Support.Analytics.Pipelines.InitializeTracker
       IPageContext context = visit.CreatePage();
       Assert.IsNotNull(context, nameof(context));
       
-      var currentPage = WebUtil.CurrentPage;
-      Assert.IsNotNull(currentPage, nameof(currentPage));
-      
-      var request = currentPage.Request;
+      var request = HttpContext.Current.Request;
       Assert.IsNotNull(request, nameof(request));
       
       var rawUrl = request.Url.AbsoluteUri;
